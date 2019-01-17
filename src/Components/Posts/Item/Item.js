@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Text } from 'grommet';
 import SubItem from './SubItem/SubItem';
 
-class Item extends React.Component {
+class Item extends React.PureComponent {
 
 
   render() {

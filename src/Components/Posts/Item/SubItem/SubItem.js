@@ -4,8 +4,12 @@ import { More } from "grommet-icons";
 
 import Comments from './Comments/Comments'
 
-class SubItem extends React.Component {
+class SubItem extends React.PureComponent {
     state = { showComments: false }
+
+    _enableComments=()=>{
+        this.setState({ showComments: !this.state.showComments }) 
+    }
 
     render() {
         var post = this.props.post;
@@ -18,7 +22,7 @@ class SubItem extends React.Component {
 
                 <small>
                     {post.kids &&
-                        <Button hoverIndicator="light-1" onClick={() => { this.setState({ showComments: !this.state.showComments }) }}>
+                        <Button hoverIndicator="light-1" onClick={() =>this._enableComments()}>
                             <Box pad="small" direction="row" align="center" gap="small">
                                 <Text size="small">{this.state.showComments ? 'hide comments' : 'view comments'}</Text>
                                 <More size="small" />
@@ -28,7 +32,7 @@ class SubItem extends React.Component {
                 </small>
 
                 <Collapsible direction="horizontal" open={this.state.showComments}>
-                    {this.state.showComments &&
+                    {(this.state.showComments && post.kids) &&
                         <Comments comments={post.kids} />
                     }
                 </Collapsible>

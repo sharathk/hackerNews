@@ -1,24 +1,24 @@
 import React from 'react';
-import Comment from './Comment/Comments';
+import Comment from './Comment/Comment'
 
 class Comments extends React.Component {
     constructor() {
         super();
         this.state = { comments: [] };
     }
-    componentWillMount() {
+    componentDidMount() {
         this.props.comments &&
             this.fetchComments();
     }
     fetchComments() {
-        var comments = this.props.comments;
+        let comments = this.props.comments;
         comments.slice(0, 10).map((commentId) => {
             fetch(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json`)
                 .then(response => response.json())
                 .then((itemDetail) => {
                     this.setState((currentState) => {
                         currentState.comments.push(itemDetail);
-                        return { posts: currentState.comments };
+                        return { comments: currentState.comments };
                     })
                 })
         })
@@ -27,15 +27,15 @@ class Comments extends React.Component {
 
 
     render() {
-        var comments = this.props.comments;
-        return <ol className="posts">
-            {this.state.comments.map(function (comment) {
+        return (<ol>
+            {this.state.comments.map((comment)=>{
                 return <Comment key={comment.id} comment={comment.text}
                     date={comment.time} author={comment.by}
                 />
 
             })}
-        </ol>;
+        </ol>
+        )
     }
 }
 export default Comments;

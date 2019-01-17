@@ -9,7 +9,7 @@ class Posts extends React.Component {
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchTopTenNews();
   }
 
