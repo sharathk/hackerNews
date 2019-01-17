@@ -1,5 +1,5 @@
-Demo running at <br>
-[Hacker News]([http://sharath.info/hackernews/) <br>
+App to view Top Ten Hacker News <br>
+
 
 Clone this Repo and in the project directory, you can run:
 
