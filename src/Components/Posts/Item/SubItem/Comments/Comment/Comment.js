@@ -16,8 +16,9 @@ class Comment extends React.PureComponent {
           gap="small"
           margin="small"
         >
+        <Text size="small">
           <ol dangerouslySetInnerHTML={{ __html: comment }}></ol>
-
+          </Text>
           <Box alignSelf="end">
             by: {author} on {Date(date)}
           </Box>
