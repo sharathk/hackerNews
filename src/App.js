@@ -1,84 +1,94 @@
 import React, { Component } from 'react';
-import './App.css';
+import { Box, Button, Collapsible, Heading, Grommet, ResponsiveContext, Layer } from 'grommet';
+import { FormClose, Notification } from 'grommet-icons';
 
-class Item extends React.Component {
-  render() {
-      var post = this.props.post;
-      return <li>
-          <a href={post.url}>{post.title}</a>
-          <Footer post={post}/>
-     </li>;
-  }
-}
-
-class Footer extends React.Component {
-  render() {
-      var post = this.props.post;
-      return <small>
-          {post.points} points by {post.postedBy + ' ' + post.postedAgo} |
-          { post.commentCount } { post.commentCount === 1 ? ' comment' : ' comments' }
-      </small>;
-  }
-}
-
-class Posts extends React.Component {
-  constructor() {
-    super();
-    this.state = { posts: [] };
-  }
-  
-  componentWillMount() {
-      this.fetchLatestNews();
-  }
-  
-  fetchLatestNews() {
-    fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-      .then(response => response.json())
-      .then((data) => {
-        data.map((newsId) => {
-          fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`)
-          .then(response => response.json())
-          .then((itemDetail) => {
-            console.log(`Fetched ${itemDetail.id}`)
-            this.setState((currentState) => {
-              currentState.posts.push(itemDetail);
-              return { posts: currentState.posts };
-            })
-          })
-        });
-    })
-  }
-  
-  render() {
-      return <ol className="posts">
-          {this.state.posts.map(function (post) {
-              return <Item key={post.id} post={post}/>
-          })}
-      </ol>;
-  }
-}
-
-class Header extends React.Component {
-  render() {
-      return <header>
-          <div className="container">
-              <h1 className="logo">Hacker News</h1>
-          </div>
-      </header>
-  }
-}
+import Header from './Components/Header/Header';
+import Posts from './Components/Posts/Posts';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = { showSidebar: false };
+
+  }
+
   render() {
+    const { showSidebar } = this.state;
     return (
-      <div>
-          <Header/>
-          <div className="container content">
-              <Posts/>
-          </div>
-      </div>
+      <Grommet theme={theme} full>
+        <ResponsiveContext.Consumer>
+          {size => (
+            <Box>
+              <Header>
+                <Heading level='3' margin='none'>Hacker News</Heading>
+                <Button
+                  icon={<Notification />}
+                  onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+                />
+              </Header>
+              <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+                <Box flex align='center' justify='center'>
+
+                  <Posts />
+
+                </Box>
+                {(!showSidebar || size !== 'small') ? (
+                  <Collapsible direction="horizontal" open={showSidebar}>
+                    <Box
+                      flex
+                      width='medium'
+                      background='light-2'
+                      elevation='small'
+                      align='center'
+                      justify='center'
+                    >
+                      SarathKumar
+            </Box>
+                  </Collapsible>
+                ) : (
+                    <Layer>
+                      <Box
+                        background='light-2'
+                        tag='header'
+                        justify='end'
+                        align='center'
+                        direction='row'
+                      >
+                        <Button
+                          icon={<FormClose />}
+                          onClick={() => this.setState({ showSidebar: false })}
+                        />
+                      </Box>
+                      <Box
+                        fill
+                        background='light-2'
+                        align='center'
+                        justify='center'
+                      >
+                        SarathKumar
+                      </Box>
+                    </Layer>
+                  )}
+              </Box>
+            </Box>
+          )}
+        </ResponsiveContext.Consumer>
+      </Grommet>
     );
   }
 }
+
+const theme = {
+  global: {
+    colors: {
+      brand: '#228BE6',
+    },
+    font: {
+      family: 'Roboto',
+      size: '14px',
+      height: '20px',
+    },
+  },
+};
 
 export default App;
