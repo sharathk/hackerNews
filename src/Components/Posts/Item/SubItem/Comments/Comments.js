@@ -12,7 +12,7 @@ class Comments extends React.Component {
     }
     fetchComments() {
         let comments = this.props.comments;
-        comments.slice(0, 10).map((commentId) => {
+        comments.slice(0, 20).map((commentId) => {
             fetch(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json`)
                 .then(response => response.json())
                 .then((itemDetail) => {
