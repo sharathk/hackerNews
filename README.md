@@ -1,5 +1,5 @@
 Demo running at <br>
-[Demo App]([http://sharath.info/hackernews/)
+[Hacker News]([http://sharath.info/hackernews/) <br>
 
 Clone this Repo and in the project directory, you can run:
 
