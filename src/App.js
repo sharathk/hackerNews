@@ -36,7 +36,7 @@ class Posts extends React.Component {
       .then(response => response.json())
       .then((data) => {
         data.map((newsId) => {
-          fetch(` https://hacker-news.firebaseio.com/v0/item/${newsId}.json`)
+          fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`)
           .then(response => response.json())
           .then((itemDetail) => {
             console.log(`Fetched ${itemDetail.id}`)
